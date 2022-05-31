@@ -1,19 +1,17 @@
 import React from 'react'
-import { CreatePostCard } from './createPostCard'
+import { CreatePostCard, CreatePostCardProps } from './createPostCard'
 import { Post } from '../data/posts'
 import { PostCard } from './postCard'
-import { Container, Paper, Stack, Typography } from '@mui/material'
-import { User } from '../data/users'
+import { Container, Stack } from '@mui/material'
 
-export type FeedProps = {
+export type FeedProps = CreatePostCardProps & {
   posts: Post[]
-  user: User
 }
 
-export const Feed = ({posts, user}: FeedProps) => {
+export const Feed = ({posts, ...postCardProps}: FeedProps) => {
   return (
     <Container>
-      <CreatePostCard user={user}/>
+      <CreatePostCard {...postCardProps}/>
 
       <Stack>
 

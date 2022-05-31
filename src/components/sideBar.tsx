@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { Home, Person } from '@mui/icons-material'
 import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 
 
 export type SideBarProps = {
@@ -27,7 +28,11 @@ const drawerWidth = 240
 export const SideBar = ({mobileOpen, onSideBarToggle}: SideBarProps) => {
   const drawer = (
     <>
-      <Toolbar/>
+      <Toolbar>
+        <Typography variant="h6" noWrap component="div" fontFamily="">
+          Jibber Jabber
+        </Typography>
+      </Toolbar>
       <List>
         {items.map(({path, title, iconComponent}) => {
           const Icon = iconComponent
