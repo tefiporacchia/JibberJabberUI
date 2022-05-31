@@ -1,14 +1,14 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, TextField } from '@mui/material'
-
-import { User } from '../data/users'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
+import { useUserContext } from './contexts/userContext'
 
 export type CreatePostCardProps = {
-  user: User
-
-  onUserPost: (postText: string) => void
+  placeholder: string
+  buttonMessage: string
+  onPost: (postText: string) => void
+  sx?: SxProps<Theme>
 }
 
 const cardStyle: SxProps<Theme> = {
@@ -19,8 +19,8 @@ const inputStyle: SxProps<Theme> = {
   width: '100%',
 }
 
-export const CreatePostCard = ({user, onUserPost}: CreatePostCardProps) => {
-  const {displayName, username, avatar} = user
+export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreatePostCardProps) => {
+  const {displayName, username, avatar} = useUserContext()
 
   const [postText, setPostText] = useState('')
 
@@ -28,15 +28,17 @@ export const CreatePostCard = ({user, onUserPost}: CreatePostCardProps) => {
     useCallback((event: React.ChangeEvent<HTMLInputElement>) => setPostText(event.target.value), [setPostText])
 
   const handleSendPost = useCallback(() => {
-    onUserPost(postText)
+    onPost(postText)
     setPostText('')
-  }, [onUserPost, postText, setPostText])
+  }, [onPost, postText, setPostText])
 
   const handleKeyPress =
     useCallback((event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && !event.shiftKey && setTimeout(handleSendPost), [handleSendPost])
 
+  const fullCardStyle = useMemo(() => ({...cardStyle, ...sx}), [sx])
+
   return (
-    <Card sx={cardStyle}>
+    <Card sx={fullCardStyle}>
       <CardHeader
         avatar={<Avatar src={avatar}/>}
         title={displayName}
@@ -46,7 +48,7 @@ export const CreatePostCard = ({user, onUserPost}: CreatePostCardProps) => {
       <CardContent>
         <TextField
           id="outlined-multiline-static"
-          label="What's happening?"
+          label={placeholder}
           multiline
           rows={2}
           onChange={handleTextChange}
@@ -58,7 +60,7 @@ export const CreatePostCard = ({user, onUserPost}: CreatePostCardProps) => {
 
 
       <CardActions>
-        <Button size="medium" onClick={handleSendPost}>Post it!</Button>
+        <Button size="medium" onClick={handleSendPost}>{buttonMessage}</Button>
       </CardActions>
     </Card>
   )

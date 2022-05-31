@@ -1,17 +1,18 @@
 import React from 'react'
-import { CreatePostCard, CreatePostCardProps } from './createPostCard'
+import { CreatePostCard } from './createPostCard'
 import { Post } from '../data/posts'
 import { PostCard } from './postCard'
 import { Container, Stack } from '@mui/material'
 
-export type FeedProps = CreatePostCardProps & {
+export type FeedProps = {
   posts: Post[]
+  onUserPost: (postText: string) => void
 }
 
-export const Feed = ({posts, ...postCardProps}: FeedProps) => {
+export const Feed = ({posts, onUserPost}: FeedProps) => {
   return (
     <Container>
-      <CreatePostCard {...postCardProps}/>
+      <CreatePostCard buttonMessage="Post it!" placeholder="What's happening?" onPost={onUserPost}/>
 
       <Stack>
 
