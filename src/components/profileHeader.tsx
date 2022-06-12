@@ -1,12 +1,11 @@
 import { Avatar, Container, Divider, Grid, Paper } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import React from 'react'
-import { User } from '../data/users'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
 
 export type ProfileHeaderProps = {
-  user: User
+  user: string
 }
 
 const avatarStyle: SxProps<Theme> = {
@@ -35,15 +34,15 @@ export const ProfileHeader = ({user}: ProfileHeaderProps) => {
         <Grid item xs={9}>
           <Container sx={profileTextStyle}>
             <Typography variant="h5" component="span">
-              {user.name + ' '}
+              {user + ' '}
             </Typography>
             <Typography variant="body1" component="span">
-              @{user.name}
+              @{user}
             </Typography>
             <Divider sx={dividerStyle}/>
-            {user.name && (
+            {user && (
               <Typography variant="body1" component="div">
-                {user.name}
+                {user}
               </Typography>
             )}
           </Container>

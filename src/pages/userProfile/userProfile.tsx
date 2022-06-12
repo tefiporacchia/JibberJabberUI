@@ -3,7 +3,6 @@ import { MainFrame } from '../../components/mainFrame'
 import { useParams } from 'react-router-dom'
 import { usePostData, useUserData } from '../../data/dataContext'
 import { Post } from '../../data/posts'
-import { User } from '../../data/users'
 import { useLoadElementById } from '../../components/hooks/useLoadElementById'
 import { mapUndefined } from '../../utils/undefined'
 import { Feed } from '../../components/feed'
@@ -17,7 +16,7 @@ type UserProfileParams = {
 
 type UserProfileValue = {
   posts: Post[]
-  user: User
+  user: string
 }
 
 export const UserProfile = () => {
