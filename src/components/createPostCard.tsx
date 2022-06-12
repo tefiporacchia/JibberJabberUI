@@ -20,7 +20,7 @@ const inputStyle: SxProps<Theme> = {
 }
 
 export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreatePostCardProps) => {
-  const {displayName, username, avatar} = useUserContext()
+  const {name} = useUserContext()
 
   const [postText, setPostText] = useState('')
 
@@ -40,9 +40,9 @@ export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreateP
   return (
     <Card sx={fullCardStyle}>
       <CardHeader
-        avatar={<Avatar src={avatar}/>}
-        title={displayName}
-        subheader={`@${username}`}
+        /*avatar={<Avatar src={avatar}/>}*/
+        title={name}
+        subheader={`@${name}`}
       />
 
       <CardContent>

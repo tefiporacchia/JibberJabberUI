@@ -28,6 +28,7 @@ export const UserLoader = ({children}: UserLoaderProps) => {
   const [state, setState] = useState<UserLoaderState>({status: 'loading'})
 
   useEffect(() => {
+    console.log(userData.getCurrentUser());
     userData.getCurrentUser().then((user) => {
       if (isNotUndefined(user))
         setState({status: 'loaded', user})

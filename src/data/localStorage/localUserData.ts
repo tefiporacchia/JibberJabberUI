@@ -10,6 +10,8 @@ export class LocalUserData implements UserData {
   ) {}
 
   getCurrentUser(): Promise<User | undefined> {
+    console.log(this.currentUserId)
+    console.log(this.data.getValue(this.currentUserId))
     return Promise.resolve(this.data.getValue(this.currentUserId))
   }
 
@@ -19,7 +21,7 @@ export class LocalUserData implements UserData {
 
   searchUser(searchString: string): Promise<User[]> {
     const result = this.data.getAllByPredicate(user =>
-      user.username.includes(searchString) || user.displayName.includes(searchString),
+      user.name.includes(searchString) || user.name.includes(searchString),
     )
 
     return Promise.resolve(result)
