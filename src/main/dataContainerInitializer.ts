@@ -6,27 +6,7 @@ import { LocalDataStorage } from '../data/localStorage/localDataStorage'
 import { LocalUserData } from '../data/localStorage/localUserData'
 import {ApiPostData} from "../data/api/apiPostData";
 
-const initialUsers: User[] = [
-  {
-    id: '806a7f05-479c-4e43-9554-27c3af4d973c',
-    displayName: 'Bird Person',
-    username: 'little_bird',
-    avatar: '/generic-avatar.jpg',
-    bio: 'Very cool Bio!'
-  },
-  {
-    id: '56892d6a-fd7c-4c1c-9fc6-1554c2243fdc',
-    displayName: 'Joe Doe',
-    username: 'joedoe',
-    avatar: '/generic-avatar.jpg',
-  },
-  {
-    id: '85ce0a1e-cd98-4c64-bb12-14bbc1a1f36e',
-    displayName: 'Homer',
-    username: 'homer',
-    avatar: '/generic-avatar.jpg',
-  },
-]
+const initialUsers: User[] = [{name:'aa'},{name:'be'}, {name:'ce'}]
 
 const initialPosts: FullPost[] = [
   {
@@ -64,11 +44,11 @@ export const createDataContainer = (): Promise<DataContainer> => {
 
   const userStorage = new LocalDataStorage<User>(LocalUserData.type)
   if (userStorage.getAll().length === 0)
-    initialUsers.forEach(user => userStorage.setValue(user.id, user))
+    initialUsers.forEach(user => userStorage.setValue(user.name, user))
 
   return Promise.resolve({
     /*posts: new LocalPostData(postStorage),*/
     posts: new ApiPostData(),
-    users: new LocalUserData(userStorage, initialUsers[0].id),
+    users: new LocalUserData(userStorage, initialUsers[0].name),
   })
 }

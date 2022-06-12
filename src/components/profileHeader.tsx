@@ -30,20 +30,20 @@ export const ProfileHeader = ({user}: ProfileHeaderProps) => {
     <Paper>
       <Grid container>
         <Grid item xs={3}>
-          <Avatar src={user.avatar} sx={avatarStyle}/>
+          {/*<Avatar src={user.avatar} sx={avatarStyle}/>*/}
         </Grid>
         <Grid item xs={9}>
           <Container sx={profileTextStyle}>
             <Typography variant="h5" component="span">
-              {user.displayName + ' '}
+              {user.name + ' '}
             </Typography>
             <Typography variant="body1" component="span">
-              @{user.username}
+              @{user.name}
             </Typography>
             <Divider sx={dividerStyle}/>
-            {user.bio && (
+            {user.name && (
               <Typography variant="body1" component="div">
-                {user.bio}
+                {user.name}
               </Typography>
             )}
           </Container>

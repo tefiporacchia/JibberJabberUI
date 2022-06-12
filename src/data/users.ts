@@ -1,9 +1,5 @@
 export type User = {
-  id: string
-  displayName: string
-  username: string
-  avatar: string
-  bio?: string
+  name: string
 }
 
 export interface UserData {
