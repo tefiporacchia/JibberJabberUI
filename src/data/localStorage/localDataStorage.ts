@@ -8,7 +8,6 @@ export class LocalDataStorage<T> {
   getValue = (id: string): T | undefined => {
     console.log(this.createKey(id))
     let maybeStringValue = localStorage.getItem(this.createKey(id))
-    debugger;
     if (maybeStringValue === null || maybeStringValue === undefined)
       return undefined
     else

@@ -7,6 +7,7 @@ import { MainFrame } from '../../components/mainFrame'
 import { UserContext } from '../../components/contexts/userContext'
 import { CreatePostCard } from '../../components/createPostCard'
 import { Container } from '@mui/material'
+import { useKeycloak } from "@react-keycloak/web";
 
 type HomeState =
   | {
@@ -18,6 +19,7 @@ type HomeState =
 }
 
 export const Home = () => {
+  const { keycloak, initialized } = useKeycloak();
   const postData = usePostData()
   const user = useContext(UserContext)
 
@@ -25,7 +27,9 @@ export const Home = () => {
 
   useEffect(() => {
     postData.getFeedPosts().then(posts => {
+      console.log(posts)
       setState({loaded: true, posts})
+      console.log(state.loaded)
     })
   }, [postData])
 
@@ -35,6 +39,7 @@ export const Home = () => {
   }, [state, postData])
 
   const handleCreatePost = useCallback((postText: string) => {
+    //const user = keycloak.tokenParsed?.preferred_username;
     if (state.loaded)
       postData.createPost({user, text: postText})
         .then(() => refreshPosts())

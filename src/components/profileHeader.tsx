@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography'
 import React from 'react'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
+import { useKeycloak } from "@react-keycloak/web";
 
 export type ProfileHeaderProps = {
   user: string
@@ -25,6 +26,7 @@ const dividerStyle: SxProps<Theme> = {
 }
 
 export const ProfileHeader = ({user}: ProfileHeaderProps) => {
+  const { keycloak, initialized } = useKeycloak();
   return (
     <Paper>
       <Grid container>
@@ -34,10 +36,10 @@ export const ProfileHeader = ({user}: ProfileHeaderProps) => {
         <Grid item xs={9}>
           <Container sx={profileTextStyle}>
             <Typography variant="h5" component="span">
-              {user + ' '}
+              {keycloak.tokenParsed?.given_name + ' '}
             </Typography>
             <Typography variant="body1" component="span">
-              @{user}
+              {`@${keycloak.tokenParsed?.preferred_username}`}
             </Typography>
             <Divider sx={dividerStyle}/>
             {user && (

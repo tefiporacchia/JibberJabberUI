@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useKeycloak } from "@react-keycloak/web";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate} from 'react-router-dom';
 
 export const Login = () => {
     const { keycloak, initialized } = useKeycloak();
     const navigate = useNavigate();
+
 
     const logout = () =>{
         console.log(keycloak);
@@ -17,26 +17,17 @@ export const Login = () => {
 
     }
 
+    useEffect(() => {
+        if(!keycloak.authenticated){
+            redirect();
+        }else{
+            navigate("/home");
+        }
+
+    }, [])
+
     return (
         <div>
-            {!keycloak.authenticated && (
-                <button
-                    type="button"
-                    className="text-blue-800"
-                    onClick={() => redirect()}
-                >
-                    Login
-                </button>
-            )}
-            {!!keycloak.authenticated && (
-                <button
-                    type="button"
-                    className="text-blue-800"
-                    onClick={() => logout()}
-                >
-                    Logout ({keycloak.tokenParsed?.preferred_username})
-                </button>
-            )}
         </div>
     );
 }

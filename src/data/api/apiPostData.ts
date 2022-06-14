@@ -1,5 +1,6 @@
 import axios from "axios"
 import {FullPost, NewPost, Post, PostData} from "../posts";
+import {getPostDesiredFields,getFullPostDesiredFields} from "../../utils/getPostDesiredFields";
 
 export class ApiPostData implements PostData{
 
@@ -10,19 +11,31 @@ export class ApiPostData implements PostData{
     }
 
     getFullPostById(id: string): Promise<FullPost | undefined> {
+
         return postAxios.get(`/${id}`);
     }
 
     getFeedPosts(): Promise<Post[]> {
-        return Promise.resolve([]);
-    }
+        return postAxios.get("").then( result => {
+            return getPostDesiredFields(result.data.content);
+
+        });
+    }//quedarme con los campos de user y message
 
     answerPost(postId: string, answer: NewPost): Promise<FullPost> {
         return postAxios.post<NewPost, FullPost>(`/${postId}/respond`, answer)
     }
 
+    // @ts-ignore
     getPostsByUser(userId: string): Promise<Post[]> {
-        return Promise.resolve([]);
+        postAxios.get(`/all/${userId}`).then( result => {
+
+            return getPostDesiredFields(result.data);
+
+        }, function(error) {
+            console.log(error)
+        });
+
     }
 
 }

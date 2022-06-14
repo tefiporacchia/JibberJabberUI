@@ -44,7 +44,7 @@ export class LocalPostData implements PostData {
   })
 
   getPostsByUser(userId: string): Promise<Post[]> {
-    const result = this.data.getAllByPredicate(post => post.user.name === userId)
+    const result = this.data.getAllByPredicate(post => post.user === userId)
     return Promise.resolve(result);
   }
 }
