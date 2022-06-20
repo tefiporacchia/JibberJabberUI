@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react'
 import { User } from '../data/users'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
+import { useKeycloak } from "@react-keycloak/web";
 
 export type ProfileHeaderProps = {
   user: User
@@ -27,26 +28,26 @@ const dividerStyle: SxProps<Theme> = {
 }
 
 export const ProfileHeader = ({user, actions}: ProfileHeaderProps) => {
+  const { keycloak, initialized } = useKeycloak();
   return (
     <Card>
       <CardContent>
-
         <Grid container>
           <Grid item xs={3}>
-            <Avatar src={user.avatar} sx={avatarStyle}/>
+            {/*<Avatar src={user.avatar} sx={avatarStyle}/>*/}
           </Grid>
           <Grid item xs={9}>
             <Container sx={profileTextStyle}>
               <Typography variant="h5" component="span">
-                {user.displayName + ' '}
+                {keycloak.tokenParsed?.given_name + ' '}
               </Typography>
               <Typography variant="body1" component="span">
-                @{user.username}
+                {`@${keycloak.tokenParsed?.preferred_username}`}
               </Typography>
               <Divider sx={dividerStyle}/>
-              {user.bio && (
+              {user && (
                 <Typography variant="body1" component="div">
-                  {user.bio}
+                  {user}
                 </Typography>
               )}
             </Container>
