@@ -10,10 +10,11 @@ export type FeedProps = {
 }
 
 export const Feed = ({posts}: FeedProps) => {
+  console.log(posts)
   return (
     <Stack>
       {posts
-        .map(post => <PostCard key={post.id} post={post} shouldNavigate/>)
+        ?.map(post => <PostCard key={post.id} post={post} shouldNavigate/>)
       }
     </Stack>
   )

@@ -3,14 +3,14 @@ import { MainFrame } from '../../components/mainFrame'
 import { useParams } from 'react-router-dom'
 import { usePostData, useUserData } from '../../data/dataContext'
 import { Post } from '../../data/posts'
-import { User } from '../../data/users'
 import { useLoadElementById } from '../../components/hooks/useLoadElementById'
 import { mapUndefined, nonUndefined } from '../../utils/undefined'
 import { Feed } from '../../components/feed'
 import { LoadableElement } from '../../components/loadableElement'
 import { Container } from '@mui/material'
 import { ProfileHeader } from '../../components/profileHeader'
-import { useUserContext } from '../../components/contexts/userContext'
+import {Logout} from "../../components/login/logout";
+import {useKeycloak} from "@react-keycloak/web";
 import { FollowActions } from '../../components/followActions'
 
 type UserProfileParams = {
@@ -19,25 +19,33 @@ type UserProfileParams = {
 
 type UserProfileValue = {
   posts: Post[]
-  user: User
+  user: string
   isFollowed: boolean
 }
 
 export const UserProfile = () => {
-  const user = useUserContext()
+    const { keycloak, initialized } = useKeycloak();
   const {userId} = useParams<UserProfileParams>()
 
   const isSelf: boolean = user.id === userId
 
   const postData = usePostData()
   const userData = useUserData()
+    let posts = [];
 
   const getUserProfileValue = useCallback((id: string) => {
+    return Promise.all([keycloak.tokenParsed?.preferred_username, postData.getPostsByUser(keycloak.tokenParsed?.preferred_username)])
+      .then(([maybeUser, posts]) => mapUndefined(maybeUser, user => ({user, posts})))
+  }, [postData])
+
+  /*const getUserProfileValue = useCallback((id: string) => {
     return Promise.all([userData.getUserById(id), userData.isFollowed(id), postData.getPostsByUser(id)])
       .then(([maybeUser, isFollowed, posts]) =>
         mapUndefined(maybeUser, user => ({user, posts, isFollowed: nonUndefined(isFollowed, false)})),
       )
-  }, [postData])
+  }, [postData])*/
+
+
 
   const {state, load} = useLoadElementById<UserProfileValue>(userId, getUserProfileValue)
 
@@ -61,6 +69,7 @@ export const UserProfile = () => {
   return (
     <MainFrame title="User profile">
       <LoadableElement state={state} renderValue={renderUserProfile}/>
+      <Logout></Logout>
     </MainFrame>
   )
 }

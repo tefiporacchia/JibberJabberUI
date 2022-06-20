@@ -1,13 +1,12 @@
 import { Avatar, Card, CardActions, CardContent, Container, Divider, Grid } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import React, { ReactNode } from 'react'
-import { User } from '../data/users'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
 import { useKeycloak } from "@react-keycloak/web";
 
 export type ProfileHeaderProps = {
-  user: User
+  user: string
   actions?: ReactNode
 }
 

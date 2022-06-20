@@ -1,5 +1,4 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { User } from '../data/users'
 import { Loading } from '../components/loading'
 import { UserContext } from '../components/contexts/userContext'
 import { useUserData } from '../data/dataContext'
@@ -19,7 +18,7 @@ type UserLoaderState =
 }
   | {
   status: 'loaded'
-  user: User
+  user: string
 }
 
 export const UserLoader = ({children}: UserLoaderProps) => {
@@ -28,6 +27,7 @@ export const UserLoader = ({children}: UserLoaderProps) => {
   const [state, setState] = useState<UserLoaderState>({status: 'loading'})
 
   useEffect(() => {
+    console.log(userData.getCurrentUser());
     userData.getCurrentUser().then((user) => {
       if (isNotUndefined(user))
         setState({status: 'loaded', user})

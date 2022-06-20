@@ -3,6 +3,7 @@ import { Avatar, Button, Card, CardActions, CardContent, CardHeader, TextField }
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
 import { useUserContext } from './contexts/userContext'
+import { useKeycloak } from "@react-keycloak/web";
 
 export type CreatePostCardProps = {
   placeholder: string
@@ -20,7 +21,8 @@ const inputStyle: SxProps<Theme> = {
 }
 
 export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreatePostCardProps) => {
-  const {displayName, username, avatar} = useUserContext()
+    const { keycloak, initialized } = useKeycloak();
+  const name = useUserContext();
 
   const [postText, setPostText] = useState('')
 
@@ -37,12 +39,14 @@ export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreateP
 
   const fullCardStyle = useMemo(() => ({...cardStyle, ...sx}), [sx])
 
+    console.log(keycloak.tokenParsed)
+
   return (
     <Card sx={fullCardStyle}>
       <CardHeader
-        avatar={<Avatar src={avatar}/>}
-        title={displayName}
-        subheader={`@${username}`}
+        /*avatar={<Avatar src={avatar}/>}*/
+        title={keycloak.tokenParsed?.given_name}
+        subheader={`@${keycloak.tokenParsed?.preferred_username}`}
       />
 
       <CardContent>

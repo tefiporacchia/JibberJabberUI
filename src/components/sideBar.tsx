@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { useNavigate } from 'react-router-dom'
 import { useUserContext } from './contexts/userContext'
+import {Logout} from "./login/logout";
 
 export type SideBarProps = {
   mobileOpen: boolean
@@ -20,14 +21,14 @@ export type ItemProps = {
 const createItems = (userId: string): ItemProps[] => [
   {
     title: 'Home',
-    path: '/',
+    path: '/home',
     iconComponent: Home,
   },
   {
     title: 'Profile',
     path: '/users/' + userId,
     iconComponent: Person,
-  },
+  }
 ]
 
 const drawerWidth = 240
@@ -53,7 +54,7 @@ const SideBarItem = ({path, title, iconComponent}: ItemProps) => {
 
 export const SideBar = ({mobileOpen, onSideBarToggle}: SideBarProps) => {
   const user = useUserContext()
-  const items = useMemo(() => createItems(user.id), [user.id])
+  const items = useMemo(() => createItems(user), [user])
 
   const drawer = (
     <>

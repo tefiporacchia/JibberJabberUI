@@ -6,6 +6,7 @@ export class LocalDataStorage<T> {
   constructor(private readonly type: string) {}
 
   getValue = (id: string): T | undefined => {
+    console.log(this.createKey(id))
     let maybeStringValue = localStorage.getItem(this.createKey(id))
     if (maybeStringValue === null || maybeStringValue === undefined)
       return undefined
@@ -15,6 +16,7 @@ export class LocalDataStorage<T> {
 
   setValue = (id: string, value: T): T => {
     const stringValue = JSON.stringify(value)
+    console.log(this.createKey(id))
     localStorage.setItem(this.createKey(id), stringValue)
 
     return value

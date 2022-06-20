@@ -1,15 +1,10 @@
-export type User = {
-  id: string
-  displayName: string
-  username: string
-  avatar: string
-  bio?: string
-}
 
 export interface UserData {
-  getCurrentUser(): Promise<User | undefined>
+  getCurrentUser(): Promise<string | undefined>
 
-  getUserById(userId: string): Promise<User | undefined>
+  getUserById(userId: string): Promise<string | undefined>
+
+  searchUser(criteria: string): Promise<string[]>
 
   isFollowed(userId: string): Promise<boolean | undefined>
 
