@@ -2,9 +2,6 @@ import { UserData } from '../users'
 import { LocalDataStorage } from './localDataStorage'
 import { isNotUndefined, mapUndefined, nonUndefined } from '../../utils/undefined'
 
-export type UserWithFollow = User & {
-  isFollowed?: boolean
-}
 
 export class LocalUserData implements UserData {
   static type: string = 'user'
@@ -32,14 +29,19 @@ export class LocalUserData implements UserData {
     return Promise.resolve(result)
   }
 
+  isFollowed(userId: string): Promise<boolean | undefined> {
+   /* const result = mapUndefined(this.data.getValue(this.currentUserId), user => user?.isFollowed)*/
+    return Promise.resolve(false)
+  }
+
   toggleFollow(userId: string): Promise<void> {
-    const newUser = mapUndefined(
+   /* const newUser = mapUndefined(
       this.data.getValue(this.currentUserId),
       user => ({...user, isFollowed: !nonUndefined(user.isFollowed, false)}),
     )
 
     if (isNotUndefined(newUser))
-      this.data.setValue(newUser.id, newUser)
+      this.data.setValue(newUser.id, newUser)*/
 
     return Promise.resolve(undefined)
   }

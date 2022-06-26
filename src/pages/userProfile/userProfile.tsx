@@ -27,7 +27,7 @@ export const UserProfile = () => {
     const { keycloak, initialized } = useKeycloak();
   const {userId} = useParams<UserProfileParams>()
 
-  const isSelf: boolean = user.id === userId
+  const isSelf: boolean = keycloak.tokenParsed?.preferred_username === userId
 
   const postData = usePostData()
   const userData = useUserData()
@@ -59,7 +59,7 @@ export const UserProfile = () => {
       <ProfileHeader
         user={user}
         actions={isSelf ? undefined : (
-          <FollowActions userId={user.id} isFollowed={isFollowed} onToggle={handleFollowToggle}/>
+          <FollowActions userId={keycloak.tokenParsed?.preferred_username ? keycloak.tokenParsed?.preferred_username : ""} isFollowed={isFollowed} onToggle={handleFollowToggle}/>
         )}
       />
       <Feed posts={posts}/>
