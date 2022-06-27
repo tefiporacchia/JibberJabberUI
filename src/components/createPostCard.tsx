@@ -41,6 +41,8 @@ export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreateP
 
     console.log(keycloak.tokenParsed)
 
+    keycloak.tokenParsed?.sub
+
   return (
     <Card sx={fullCardStyle}>
       <CardHeader
