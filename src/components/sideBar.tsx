@@ -54,7 +54,7 @@ const SideBarItem = ({path, title, iconComponent}: ItemProps) => {
 
 export const SideBar = ({mobileOpen, onSideBarToggle}: SideBarProps) => {
   const user = useUserContext()
-  const items = useMemo(() => createItems(user), [user])
+    const items = useMemo(() => createItems(user.name), [user.name])
 
   const drawer = (
     <>

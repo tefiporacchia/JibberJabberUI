@@ -1,12 +1,13 @@
 import { Avatar, Container, Divider, Grid, Paper } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import React from 'react'
+import { User } from '../data/users'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
 import { useKeycloak } from "@react-keycloak/web";
 
 export type ProfileHeaderProps = {
-  user: string
+  user: User
 }
 
 const avatarStyle: SxProps<Theme> = {
@@ -42,9 +43,9 @@ export const ProfileHeader = ({user}: ProfileHeaderProps) => {
               {`@${keycloak.tokenParsed?.preferred_username}`}
             </Typography>
             <Divider sx={dividerStyle}/>
-            {user && (
+            {user.name && (
               <Typography variant="body1" component="div">
-                {user}
+                {user.name}
               </Typography>
             )}
           </Container>

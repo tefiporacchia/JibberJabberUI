@@ -1,8 +1,10 @@
-
+export type User = {
+  name: string
+}
 export interface UserData {
-  getCurrentUser(): Promise<string | undefined>
+  getCurrentUser(): Promise<User | undefined>
 
-  getUserById(userId: string): Promise<string | undefined>
+  getUserById(userId: string): Promise<User | undefined>
 
-  searchUser(criteria: string): Promise<string[]>
+  searchUser(criteria: string): Promise<User[]>
 }

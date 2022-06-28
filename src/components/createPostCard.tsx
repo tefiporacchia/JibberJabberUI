@@ -22,7 +22,7 @@ const inputStyle: SxProps<Theme> = {
 
 export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreatePostCardProps) => {
     const { keycloak, initialized } = useKeycloak();
-  const name = useUserContext();
+  const {name} = useUserContext();
 
   const [postText, setPostText] = useState('')
 

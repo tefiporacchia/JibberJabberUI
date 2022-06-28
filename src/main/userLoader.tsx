@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
+import { User } from '../data/users'
 import { Loading } from '../components/loading'
 import { UserContext } from '../components/contexts/userContext'
 import { useUserData } from '../data/dataContext'
@@ -18,7 +19,7 @@ type UserLoaderState =
 }
   | {
   status: 'loaded'
-  user: string
+  user: User
 }
 
 export const UserLoader = ({children}: UserLoaderProps) => {

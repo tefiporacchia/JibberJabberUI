@@ -1,7 +1,8 @@
+import { User } from './users'
 export type Post = {
   id: string
   text: string
-  user: string
+  user: User
 }
 
 export type FullPost = Post & {
