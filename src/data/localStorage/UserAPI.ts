@@ -60,6 +60,9 @@ class UserAPI implements UserData {
 
     getUserById(userId: string): Promise<User | undefined> {
 
+        //userId es subject
+        //el token lo puedo conseguir con keycloak.token en vez de lo que hace von
+
         let token
 
         if(keycloak.token) token = keycloak.token
