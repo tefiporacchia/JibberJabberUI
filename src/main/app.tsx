@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import keycloak from "../Keycloak"
 import { useEffect, useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -19,12 +21,14 @@ export const App = () => {
     return (<div>Loading ...</div>)
 
   return (
-    <DataContext.Provider value={dataContainer}>
-      <BrowserRouter>
-        <UserLoader>
-          <MainRouter/>
-        </UserLoader>
-      </BrowserRouter>
-    </DataContext.Provider>
+      <ReactKeycloakProvider authClient={keycloak}>
+        <DataContext.Provider value={dataContainer}>
+          <BrowserRouter>
+            <UserLoader>
+              <MainRouter/>
+            </UserLoader>
+          </BrowserRouter>
+        </DataContext.Provider>
+      </ReactKeycloakProvider>
   )
 }

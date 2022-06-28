@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-
 import { Post } from '../../data/posts'
 import { Feed } from '../../components/feed'
 import { usePostData } from '../../data/dataContext'
