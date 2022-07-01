@@ -1,5 +1,7 @@
 export type User = {
+  id: string
   name: string
+  username:string
 }
 export interface UserData {
   getCurrentUser(): Promise<User | undefined>

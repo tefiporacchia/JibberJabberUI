@@ -6,7 +6,7 @@ import { LocalDataStorage } from '../data/localStorage/localDataStorage'
 import { LocalUserData } from '../data/localStorage/localUserData'
 import {ApiPostData} from "../data/api/apiPostData";
 
-const initialUsers: User[] = [{name:'aa'},{name:'be'}, {name:'ce'}]
+const initialUsers: User[] = [{id:'0234', name:'Maria', username:'mery2001'},{id:'0235', name:'Juan', username:'jlopez1997'}, {id:'0236', name:'Sergio', username:'sSanchez34'}]
 
 const initialPosts: FullPost[] = [
   {

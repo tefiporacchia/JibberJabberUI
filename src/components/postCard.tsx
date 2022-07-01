@@ -19,7 +19,7 @@ export const PostCard = ({post, sx, shouldNavigate = false}: PostCardProps) => {
   const navigate = useNavigate()
 
   const {text, user} = post
-  const {name} = user
+  const {id, name, username} = user
 
   const mergedCardStyle = {...cardStyle, ...sx}
 
@@ -28,7 +28,7 @@ export const PostCard = ({post, sx, shouldNavigate = false}: PostCardProps) => {
       navigate(`/posts/${post.id}`)
   }, [navigate, post.id])
 
-  const handleHeaderClick = useCallback(() => navigate(`/users/${post.user.name}`), [navigate, post.user.name])
+  const handleHeaderClick = useCallback(() => navigate(`/users/${post.user.id}`), [navigate, post.user.id])
 
   return (
     <Card sx={mergedCardStyle}>
@@ -36,7 +36,7 @@ export const PostCard = ({post, sx, shouldNavigate = false}: PostCardProps) => {
         <CardHeader
           /*avatar={<Avatar src={avatar}/>}*/
             title={name}
-            subheader={`@${name}`}
+            subheader={`@${username}`}
           onClick={handleHeaderClick}
         />
         <CardContent onClick={handleContentClick}>
