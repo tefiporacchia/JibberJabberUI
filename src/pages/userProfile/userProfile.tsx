@@ -5,13 +5,15 @@ import { usePostData, useUserData } from '../../data/dataContext'
 import { Post } from '../../data/posts'
 import { User } from '../../data/users'
 import { useLoadElementById } from '../../components/hooks/useLoadElementById'
-import { mapUndefined } from '../../utils/undefined'
+import { mapUndefined, nonUndefined } from '../../utils/undefined'
 import { Feed } from '../../components/feed'
 import { LoadableElement } from '../../components/loadableElement'
 import { Container } from '@mui/material'
 import { ProfileHeader } from '../../components/profileHeader'
 import {Logout} from "../../components/login/logout";
 import {useKeycloak} from "@react-keycloak/web";
+import { useUserContext } from '../../components/contexts/userContext'
+import { FollowActions } from '../../components/followActions'
 
 
 type UserProfileParams = {
@@ -21,31 +23,46 @@ type UserProfileParams = {
 type UserProfileValue = {
   posts: Post[]
   user: User
+  isFollowed: boolean
 }
 
 export const UserProfile = () => {
     const { keycloak, initialized } = useKeycloak();
+    const user = useUserContext()
   const {userId} = useParams<UserProfileParams>()
 
+    const isSelf: boolean = user.id === userId
   const postData = usePostData()
   const userData = useUserData()
     let posts = [];
 
   const getUserProfileValue = useCallback((id: string) => {
-    return Promise.all([keycloak.tokenParsed?.preferred_username, postData.getPostsByUser(keycloak.tokenParsed?.preferred_username)])
-      .then(([maybeUser, posts]) => mapUndefined(maybeUser, user => ({user, posts})))
+      return Promise.all([userData.getUserById(id), userData.isFollowed(id), postData.getPostsByUser(id)])
+          .then(([maybeUser, isFollowed, posts]) =>
+              mapUndefined(maybeUser, user => ({user, posts, isFollowed: nonUndefined(isFollowed, false)})),
+          )
   }, [postData])
 
-  const {state} = useLoadElementById<UserProfileValue>(userId, getUserProfileValue)
+    const {state, load} = useLoadElementById<UserProfileValue>(userId, getUserProfileValue)
+
+    const handleFollowToggle = useCallback((userId: string) => {
+        userData.toggleFollow(userId)
+            .then(() => load())
+    }, [userData, userId])
 
 console.log(postData)
 
-  const renderUserProfile = useCallback(({user, posts}: UserProfileValue) => (
+  const renderUserProfile = useCallback(({user, posts, isFollowed}: UserProfileValue) => (
     <Container>
-      <ProfileHeader user={user}/>
+        <ProfileHeader
+            user={user}
+            actions={isSelf ? undefined : (
+                <FollowActions userId={user.id} isFollowed={isFollowed} onToggle={handleFollowToggle}/>
+            )}
+        />
       <Feed posts={posts}/>
     </Container>
-  ), [])
+  ), [isSelf, handleFollowToggle])
 
   return (
     <MainFrame title="User profile">

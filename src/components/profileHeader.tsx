@@ -1,6 +1,6 @@
-import { Avatar, Container, Divider, Grid, Paper } from '@mui/material'
+import {Avatar, Card, CardActions, CardContent, Container, Divider, Grid, Paper} from '@mui/material'
 import Typography from '@mui/material/Typography'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { User } from '../data/users'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
@@ -8,6 +8,7 @@ import { useKeycloak } from "@react-keycloak/web";
 
 export type ProfileHeaderProps = {
   user: User
+  actions?: ReactNode
 }
 
 const avatarStyle: SxProps<Theme> = {
@@ -26,31 +27,38 @@ const dividerStyle: SxProps<Theme> = {
   margin: '20px 0',
 }
 
-export const ProfileHeader = ({user}: ProfileHeaderProps) => {
+export const ProfileHeader = ({user, actions}: ProfileHeaderProps) => {
   const { keycloak, initialized } = useKeycloak();
   return (
-    <Paper>
-      <Grid container>
-        <Grid item xs={3}>
-          {/*<Avatar src={user.avatar} sx={avatarStyle}/>*/}
-        </Grid>
-        <Grid item xs={9}>
-          <Container sx={profileTextStyle}>
-            <Typography variant="h5" component="span">
-              {keycloak.tokenParsed?.given_name + ' '}
-            </Typography>
-            <Typography variant="body1" component="span">
-              {`@${keycloak.tokenParsed?.preferred_username}`}
-            </Typography>
-            <Divider sx={dividerStyle}/>
-            {user.name && (
-              <Typography variant="body1" component="div">
-                {user.name}
+    <Card>
+      <CardContent>
+        <Grid container>
+          <Grid item xs={3}>
+            {/*<Avatar src={user.avatar} sx={avatarStyle}/>*/}
+          </Grid>
+          <Grid item xs={9}>
+            <Container sx={profileTextStyle}>
+              <Typography variant="h5" component="span">
+                {keycloak.tokenParsed?.given_name + ' '}
               </Typography>
-            )}
-          </Container>
+              <Typography variant="body1" component="span">
+                {`@${keycloak.tokenParsed?.preferred_username}`}
+              </Typography>
+              <Divider sx={dividerStyle}/>
+              {user.name && (
+                  <Typography variant="body1" component="div">
+                    {user.name}
+                  </Typography>
+              )}
+            </Container>
+          </Grid>
         </Grid>
-      </Grid>
-    </Paper>
+      </CardContent>
+      {actions && (
+          <CardActions>
+            {actions}
+          </CardActions>
+      )}
+    </Card>
   )
 }
