@@ -1,6 +1,7 @@
 import axios from "axios"
 import {FullPost, NewPost, Post, PostData} from "../posts";
 import {getPostDesiredFields,getFullPostDesiredFields} from "../../utils/getPostDesiredFields";
+import {getToken} from "../../utils/keycloak";
 
 export class ApiPostData implements PostData{
 
@@ -42,7 +43,8 @@ export class ApiPostData implements PostData{
 
 const postAxios = axios.create(
     {
-        baseURL: "http://localhost:8080/post"
+        baseURL: "http://localhost:8080/post",
+        headers: {'Authorization': 'Bearer '+ getToken()}
 
     }
 )
