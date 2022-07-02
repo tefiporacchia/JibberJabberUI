@@ -5,6 +5,14 @@ export type Post = {
   user: User
 }
 
+export type Post2 = {
+  id: string
+  text: string
+  user: User
+}
+//borrar
+
+
 export type FullPost = Post & {
   thread: Post[]
 }
