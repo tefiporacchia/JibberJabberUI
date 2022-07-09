@@ -1,9 +1,7 @@
 import {FullPost, Post} from "../data/posts";
 import axios from "axios";
 import {User} from "../data/users";
-import {useKeycloak} from "@react-keycloak/web";
-
-const { keycloak, initialized } = useKeycloak();
+import keycloak from "../Keycloak";
 
 export const getInfoById = async (id: string) =>{
     return userAxios.get(`/${id}`);
@@ -15,12 +13,12 @@ export const getAllUsers = async () =>{
 
 export const getUserId = () =>{
 
-    return keycloak.subject;
+    return keycloak?.subject;
 }
 
 export const getToken = () =>{
 
-    return keycloak.token;
+    return keycloak?.token;
 }
 
 const userAxios = axios.create(

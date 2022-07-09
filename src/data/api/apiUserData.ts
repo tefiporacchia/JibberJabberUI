@@ -63,7 +63,7 @@ export class apiUserData implements UserData {
 
 const userAxios = axios.create(
     {
-        baseURL: "http://localhost:8080/follow",
+        baseURL: "http://localhost:8081/follow",
         headers: {'Authorization': 'Bearer '+ getToken()}
 
     }

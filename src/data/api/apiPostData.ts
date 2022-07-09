@@ -2,11 +2,24 @@ import axios from "axios"
 import {FullPost, NewPost, Post, PostData} from "../posts";
 import {getPostDesiredFields,getFullPostDesiredFields} from "../../utils/getPostDesiredFields";
 import {getToken} from "../../utils/keycloak";
+import keycloak from "../../Keycloak";
 
+const postAxios = axios.create(
+    {
+        baseURL: "post/",
+        headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+    }
+)
 export class ApiPostData implements PostData{
 
     createPost(post: NewPost): Promise<Post> {
-        const request = postAxios.post<NewPost, Post>("/", post)
+        const request = axios.create(
+            {
+                baseURL: "post/",
+                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+            }).post<NewPost, Post>("/", post)
         console.log(request);
         return request;
     }
@@ -17,7 +30,13 @@ export class ApiPostData implements PostData{
     }
 
     getFeedPosts(): Promise<Post[]> {
-        return postAxios.get("").then( result => {
+        console.log(keycloak?.token)
+        return axios.create(
+            {
+                baseURL: "post/",
+                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+            }).get("").then( result => {
             return getPostDesiredFields(result.data.content);
 
         });
@@ -41,13 +60,6 @@ export class ApiPostData implements PostData{
 
 }
 
-const postAxios = axios.create(
-    {
-        baseURL: "http://localhost:8080/post",
-        headers: {'Authorization': 'Bearer '+ getToken()}
-
-    }
-)
 
 export const deletePost = async (postId: string) => {
     return await postAxios.delete(`/${postId}`)
