@@ -1,26 +1,19 @@
-
-import { isNotUndefined, mapUndefined, nonUndefined } from '../../utils/undefined'
 import {User, UserData} from "../users";
-import {LocalDataStorage} from "../localStorage/localDataStorage";
 import {getInfoById, getUserId, getToken} from "../../utils/keycloak";
-import {useKeycloak} from "@react-keycloak/web";
-import get = Reflect.get;
+
 import axios from "axios";
-import {getPostDesiredFields} from "../../utils/getPostDesiredFields";
+import keycloak from "../../Keycloak";
 
-export type UserWithFollow = User & {
-    isFollowed?: boolean
-}
+const userAxios = axios.create(
+    {
+        baseURL: "http://localhost:8081/follow",
+        headers: {'Authorization': 'Bearer '+ getToken()}
 
-const { keycloak, initialized } = useKeycloak();
+    }
+)
 
-export class apiUserData implements UserData {
-    static type: string = 'user'
+export class ApiUserData implements UserData {
 
-    constructor(
-        private readonly data: LocalDataStorage<UserWithFollow>,
-        private readonly currentUserId: string,
-    ) {}
 
     getCurrentUser(): Promise<User | undefined> {
         const result = <User>{id:getUserId(), name:keycloak.tokenParsed?.given_name, username:keycloak.tokenParsed?.preferred_username};
@@ -49,22 +42,14 @@ export class apiUserData implements UserData {
     }
 
     toggleFollow(userId: string): Promise<void> {
-        const newUser = mapUndefined(
-            this.data.getValue(this.currentUserId),
-            user => ({...user, isFollowed: !nonUndefined(user.isFollowed, false)}),
-        )
-        if (isNotUndefined(newUser))
-            this.data.setValue(newUser.id, newUser)
-
-        return Promise.resolve(undefined)
+        return this.isFollowed(userId).then(followed => {
+            if (followed) {
+                return userAxios.delete(`/${userId}`)
+            } else {
+                return userAxios.post(`/${userId}`)
+            }
+        })
     }
 
 }
 
-const userAxios = axios.create(
-    {
-        baseURL: "http://localhost:8081/follow",
-        headers: {'Authorization': 'Bearer '+ getToken()}
-
-    }
-)

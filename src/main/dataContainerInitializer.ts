@@ -5,37 +5,15 @@ import { User } from '../data/users'
 import { LocalDataStorage } from '../data/localStorage/localDataStorage'
 import { LocalUserData } from '../data/localStorage/localUserData'
 import {ApiPostData} from "../data/api/apiPostData";
+import {ApiUserData} from "../data/api/apiUserData";
 
-const initialUsers: User[] = [{id:'0234', name:'Maria', username:'mery2001'},{id:'0235', name:'Juan', username:'jlopez1997'}, {id:'0236', name:'Sergio', username:'sSanchez34'}]
 
-const initialPosts: FullPost[] = [
-  {
-    id: 'bb558482-6bc9-4529-9551-0a1141741627',
-    user: initialUsers[1],
-    text: 'Really great',
-    thread: [],
-  },
-  {
-    id: '28c0143f-12d7-41e9-85e5-8eb813339862',
-    user: initialUsers[1],
-    text: 'I\'m great',
-    thread: [
-      {
-        id: '32beae9b-d3af-45bc-88f8-4cb792c95a09',
-        user: initialUsers[0],
-        text: 'Not that great...',
-      },
-    ],
-  },
-  {
-    id: '700e1d1a-fcc7-4389-9d2e-159f8419da53',
-    user: initialUsers[2],
-    text: 'Doh!',
-    thread: [],
-  },
-]
+const initialUsers: User[] = []
+
+const initialPosts: FullPost[] = []
 
 export const createDataContainer = (): Promise<DataContainer> => {
+
 
   const postStorage = new LocalDataStorage<FullPost>(LocalPostData.type)
 
@@ -43,12 +21,13 @@ export const createDataContainer = (): Promise<DataContainer> => {
     initialPosts.forEach(post => postStorage.setValue(post.id, post))
 
   const userStorage = new LocalDataStorage<User>(LocalUserData.type)
+
   if (userStorage.getAll().length === 0)
-    initialUsers.forEach(user => userStorage.setValue(user.name, user))
+    initialUsers.forEach(user => userStorage.setValue(user.id, user))
 
   return Promise.resolve({
     /*posts: new LocalPostData(postStorage),*/
     posts: new ApiPostData(),
-    users: new LocalUserData(userStorage, initialUsers[0].name),
+    users: new ApiUserData()
   })
 }
