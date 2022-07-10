@@ -4,11 +4,11 @@ import { Feed } from '../../components/feed'
 import { usePostData } from '../../data/dataContext'
 import { Loading } from '../../components/loading'
 import { MainFrame } from '../../components/mainFrame'
-import { UserContext } from '../../components/contexts/userContext'
 import { CreatePostCard } from '../../components/createPostCard'
+import { UserContext } from '../../components/contexts/userContext'
 import { Container } from '@mui/material'
 import { useKeycloak } from "@react-keycloak/web";
-import keycloak from "../../Keycloak";
+
 
 type HomeState =
   | {
@@ -56,7 +56,7 @@ export const Home = () => {
   }, [state, postData])
 
   const handleCreatePost = useCallback((postText: string) => {
-    //const user = keycloak.tokenParsed?.preferred_username;
+    console.log(user)
     if (state.loaded)
       postData.createPost({user, text: postText})
         .then(() => refreshPosts())
@@ -72,7 +72,6 @@ export const Home = () => {
     <MainFrame title="Home">
       <Container>
         <CreatePostCard buttonMessage="Post it!" placeholder="What's happening?" onPost={handleCreatePost}/>
-
         <Feed posts={posts}/>
       </Container>
     </MainFrame>

@@ -6,7 +6,7 @@ import keycloak from "../../Keycloak";
 
 const userAxios = axios.create(
     {
-        baseURL: "http://localhost:8081/follow",
+        baseURL: "follow/",
         headers: {'Authorization': 'Bearer '+ getToken()}
 
     }

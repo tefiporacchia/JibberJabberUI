@@ -15,6 +15,7 @@ export class LocalPostData implements PostData {
     return Promise.resolve(this.data.getValue(id))
   }
 
+  // @ts-ignore
   createPost(newPost: NewPost): Promise<Post> {
     const post = this.createPostFromNewPost(newPost)
 

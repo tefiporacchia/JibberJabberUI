@@ -11,6 +11,11 @@ export type FullPost = Post & {
 
 export type NewPost = Omit<Post, 'id'>
 
+export type PostToSend = {
+  text: string
+  user: string
+}
+
 export interface PostData {
   getFeedPosts(): Promise<Post[]>
 
@@ -18,7 +23,7 @@ export interface PostData {
 
   getPostsByUser(userId: string): Promise<Post[]>
 
-  createPost(post: NewPost): Promise<Post>
+  createPost(post: NewPost): Promise<PostToSend>
 
   answerPost(postId: string, answer: NewPost): Promise<FullPost>
 

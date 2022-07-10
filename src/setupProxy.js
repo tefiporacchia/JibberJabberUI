@@ -8,11 +8,11 @@ module.exports = function(app) {
             changeOrigin: true,
         })
     );
-    /*app.use(
+    app.use(
         '/follow',
         createProxyMiddleware({
             target: 'http://localhost:8081',
             changeOrigin: true,
         })
-    );*/
+    );
 };

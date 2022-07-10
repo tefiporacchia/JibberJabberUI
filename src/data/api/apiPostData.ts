@@ -1,5 +1,5 @@
 import axios from "axios"
-import {FullPost, NewPost, Post, PostData} from "../posts";
+import {FullPost, NewPost, Post, PostData, PostToSend} from "../posts";
 import {getPostDesiredFields,getFullPostDesiredFields} from "../../utils/getPostDesiredFields";
 import {getToken} from "../../utils/keycloak";
 import keycloak from "../../Keycloak";
@@ -13,13 +13,13 @@ const postAxios = axios.create(
 )
 export class ApiPostData implements PostData{
 
-    createPost(post: NewPost): Promise<Post> {
+    createPost(post: NewPost): Promise<PostToSend> {
         const request = axios.create(
             {
                 baseURL: "post/",
                 headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
-            }).post<NewPost, Post>("/", post)
+            }).post<NewPost,PostToSend>("/", {text: post.text,user:post.user.username})
         console.log(request);
         return request;
     }
@@ -37,6 +37,7 @@ export class ApiPostData implements PostData{
                 headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
             }).get("").then( result => {
+                console.log(result)
             return getPostDesiredFields(result.data.content);
 
         });
