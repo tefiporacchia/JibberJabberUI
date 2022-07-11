@@ -8,6 +8,7 @@ import { CreatePostCard } from '../../components/createPostCard'
 import { UserContext } from '../../components/contexts/userContext'
 import { Container } from '@mui/material'
 import { useKeycloak } from "@react-keycloak/web";
+import keycloak from "../../Keycloak";
 
 
 type HomeState =
@@ -57,11 +58,12 @@ export const Home = () => {
 
   const handleCreatePost = useCallback((postText: string) => {
     console.log(user)
+    console.log(keycloak.tokenParsed?.given_name);
     if (state.loaded)
       postData.createPost({user, text: postText})
         .then(() => refreshPosts())
         .catch(error => console.error('Error while creating new post', error))
-  }, [state, postData])
+  }, [state, postData, user])
 
   if (!state.loaded)
     return <Loading/>

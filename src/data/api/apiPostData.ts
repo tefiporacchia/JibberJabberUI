@@ -6,7 +6,7 @@ import keycloak from "../../Keycloak";
 
 const postAxios = axios.create(
     {
-        baseURL: "post/",
+        baseURL: "/post/",
         headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
     }
@@ -14,9 +14,10 @@ const postAxios = axios.create(
 export class ApiPostData implements PostData{
 
     createPost(post: NewPost): Promise<PostToSend> {
+        console.log(post)
         const request = axios.create(
             {
-                baseURL: "post/",
+                baseURL: "/post/",
                 headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
             }).post<NewPost,PostToSend>("/", {text: post.text,user:post.user.username})
@@ -33,7 +34,7 @@ export class ApiPostData implements PostData{
         console.log(keycloak?.token)
         return axios.create(
             {
-                baseURL: "post/",
+                baseURL: "/post/",
                 headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
             }).get("").then( result => {

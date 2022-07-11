@@ -1,6 +1,5 @@
 import {User, UserData} from "../users";
 import {getInfoById, getUserId, getToken} from "../../utils/keycloak";
-
 import axios from "axios";
 import keycloak from "../../Keycloak";
 
@@ -12,11 +11,52 @@ const userAxios = axios.create(
     }
 )
 
+/*const getCurrUs= (): User => {
+    let id
+    let givenName
+    let username
+    let result
+    console.log("aaaa")
+    id=keycloak?.subject
+    givenName=keycloak.tokenParsed?.given_name
+    username=keycloak.tokenParsed?.username
+    debugger
+    result = <User>{id:id, name:givenName, username:username};
+    return result;
+}*/
+
 export class ApiUserData implements UserData {
 
 
     getCurrentUser(): Promise<User | undefined> {
-        const result = <User>{id:getUserId(), name:keycloak.tokenParsed?.given_name, username:keycloak.tokenParsed?.preferred_username};
+        /*setTimeout(() => {
+            console.log(keycloak.tokenParsed)
+        }, 5000)
+
+        return Promise.resolve(<User>{})*/
+
+        return new Promise( (resolve) => {
+            setTimeout(() => resolve(
+            this.getCurrUs()
+        ), 2000) } )
+
+
+        //return Promise.resolve(<User>{id: "a2be8e89-c280-4309-b4c9-20fd08519486", name: "tefi", username:"Stefania"})
+    }
+    async getCurrUs(): Promise<User> {
+        const token = await keycloak?.tokenParsed
+        debugger
+        return <User>{id:token?.sub, name:token?.given_name, username:token?.preferred_username};
+    }
+
+    async getA(): Promise<User | undefined> {
+        const a = await keycloak.tokenParsed?.preferred_username
+        console.log(a)
+        const result = <User>{
+            id: getUserId(),
+            name: keycloak.tokenParsed?.given_name,
+            username: keycloak.tokenParsed?.preferred_username
+        };
         return Promise.resolve(result)
     }
 
