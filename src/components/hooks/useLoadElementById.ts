@@ -25,17 +25,24 @@ export const useLoadElementById = <E>(id: string | undefined, loader: (id: strin
   const [state, setState] = useState<LoadElementState<E>>(LoadingState)
 
   const load = useCallback(() => {
-    if (isUndefined(id))
+    if (isUndefined(id)){
+      console.log("aaa");
       setState(NotFoundState)
-    else
+    }
+    else{
+      console.log("entro al else")
+      console.log(id)
+      console.log(loader)
       loader(id).then(element => {
         if (element === undefined)
           setState(NotFoundState)
         else
           setState({status: 'loaded', value: element})
       })
-        .catch(error => ({status: 'error', detail: error.toString()}))
+          .catch(error => ({status: 'error', detail: error.toString()}))
+    }
   }, [setState, loader])
+
 
   useEffect(() => load(), [])
 

@@ -19,7 +19,7 @@ export class LocalPostData implements PostData {
   createPost(newPost: NewPost): Promise<Post> {
     const post = this.createPostFromNewPost(newPost)
 
-    const fullPost: FullPost = {...post, thread: []}
+    const fullPost: FullPost = {...post, responses: []}
 
     return Promise.resolve(this.data.setValue(fullPost.id, fullPost))
   }
@@ -30,7 +30,7 @@ export class LocalPostData implements PostData {
     if (maybePost !== undefined) {
       const newPost = {
         ...maybePost,
-        thread: maybePost.thread.concat(this.createPostFromNewPost(answer)),
+        responses: maybePost.responses.concat(this.createPostFromNewPost(answer)),
       }
 
       return Promise.resolve(this.data.setValue(newPost.id, newPost))

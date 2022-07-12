@@ -6,7 +6,7 @@ export type Post = {
 }
 
 export type FullPost = Post & {
-  thread: Post[]
+  responses: Post[]
 }
 
 export type NewPost = Omit<Post, 'id'>

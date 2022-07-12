@@ -27,6 +27,7 @@ export const PostCard = ({post, sx, shouldNavigate = false}: PostCardProps) => {
       navigate(`/posts/${post.id}`)
   }, [navigate, post.id])
 
+
   const handleHeaderClick = useCallback(() => navigate(`/users/${post.user.id}`), [navigate, post.user.id])
 
   return (

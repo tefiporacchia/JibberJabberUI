@@ -10,6 +10,6 @@ export const getPostDesiredFields = async(objArray: any[]) : Promise<Post[]>=>{
 }
 
 export const getFullPostDesiredFields = (objArray: any[]) : FullPost[]=>{
-   return objArray?.map(({user,message,id,responses})=>(<FullPost>{user:user, message:message, id: id, thread:responses}));
+   return objArray?.map(({user,message,id,responses})=>(<FullPost>{user:user, message:message, id: id, responses:responses}));
 
 }

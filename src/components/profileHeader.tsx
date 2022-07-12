@@ -39,10 +39,10 @@ export const ProfileHeader = ({user, actions}: ProfileHeaderProps) => {
           <Grid item xs={9}>
             <Container sx={profileTextStyle}>
               <Typography variant="h5" component="span">
-                {keycloak.tokenParsed?.given_name + ' '}
+                {user.name}
               </Typography>
               <Typography variant="body1" component="span">
-                {`@${keycloak.tokenParsed?.preferred_username}`}
+                {`@${user.username}`}
               </Typography>
               <Divider sx={dividerStyle}/>
               {user.name && (

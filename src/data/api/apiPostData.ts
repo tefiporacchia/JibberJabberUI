@@ -26,8 +26,17 @@ export class ApiPostData implements PostData{
     }
 
     getFullPostById(id: string): Promise<FullPost | undefined> {
+        return axios.create(
+            {
+                baseURL: "/post/",
+                headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
-        return postAxios.get(`/${id}`);
+            }).get(`/${id}`).then( result => {
+            console.log(result)
+            //return getPostDesiredFields(result.data.content);
+            return result.data.content;
+
+        });
     }
 
     getFeedPosts(): Promise<Post[]> {
@@ -51,13 +60,28 @@ export class ApiPostData implements PostData{
 
     // @ts-ignore
     getPostsByUser(userId: string): Promise<Post[]> {
-        postAxios.get(`/all/${userId}`).then( result => {
+
+        return axios.create(
+            {
+                baseURL: "/post/",
+                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+            }).get(`/all/${userId}`).then( result => {
+            console.log(result)
+            //return getPostDesiredFields(result.data.content);
+            return result.data.content;
+
+        });
+
+
+
+        /*postAxios.get(`/all/${userId}`).then( result => {
 
             return getPostDesiredFields(result.data);
 
         }, function(error) {
             console.log(error)
-        });
+        });*/
 
     }
 

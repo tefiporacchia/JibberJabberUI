@@ -28,7 +28,7 @@ export const PostDetail = ({post, onPostAnswer}: PostCardProps) => {
       />
 
       <Stack>
-        {post.thread
+        {post.responses
           .map(answer => (<PostCard key={answer.id} post={answer} sx={answerStyle}/>))
         }
       </Stack>

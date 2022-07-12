@@ -30,13 +30,15 @@ export const UserProfile = () => {
     const { keycloak, initialized } = useKeycloak();
     const user = useUserContext()
   const {userId} = useParams<UserProfileParams>()
-
+    console.log(user.id)
+    console.log(userId)
     const isSelf: boolean = user.id === userId
   const postData = usePostData()
   const userData = useUserData()
     let posts = [];
 
   const getUserProfileValue = useCallback((id: string) => {
+      console.log(id)
       return Promise.all([userData.getUserById(id), userData.isFollowed(id), postData.getPostsByUser(id)])
           .then(([maybeUser, isFollowed, posts]) =>
               mapUndefined(maybeUser, user => ({user, posts, isFollowed: nonUndefined(isFollowed, false)})),

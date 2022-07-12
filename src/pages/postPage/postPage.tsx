@@ -19,6 +19,7 @@ export const PostPage = () => {
   const postData = usePostData()
   const getFullPostById = useCallback(postData.getFullPostById.bind(postData), [postData])
 
+
   const {state, load} = useLoadElementById<FullPost>(postId, getFullPostById)
 
   const handlePostAnswer = useCallback((postText: string) => {
@@ -32,6 +33,7 @@ export const PostPage = () => {
   const renderPost = useCallback((post: FullPost) => (
     <PostDetail post={post} onPostAnswer={handlePostAnswer}/>
   ), [handlePostAnswer])
+
 
   return (
     <MainFrame title="Post">

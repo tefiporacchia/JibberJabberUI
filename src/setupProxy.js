@@ -9,10 +9,10 @@ module.exports = function(app) {
         })
     );
     app.use(
-        '/follow/',
+        '/follow',
         createProxyMiddleware({
-            target: 'http://localhost:80/follow/',
-            changeOrigin: true,
+            target: 'http://localhost:80',
+            changeOrigin: false,
         })
     );
     app.use(
