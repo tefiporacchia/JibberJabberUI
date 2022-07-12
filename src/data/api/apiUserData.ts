@@ -3,6 +3,7 @@ import {getInfoById, getUserId, getToken} from "../../utils/keycloak";
 import axios from "axios";
 import keycloak from "../../Keycloak";
 import {getPostDesiredFields} from "../../utils/getPostDesiredFields";
+import {NewPost, PostToSend} from "../posts";
 
 const followAxios = axios.create(
     {
@@ -67,7 +68,7 @@ export class ApiUserData implements UserData {
         return axios.create(
             {
                 baseURL: "/user/",
-                headers: {'Authorization': 'Bearer '+ "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBWkp5RUlVa1pmWWNtTFpKLS0tcWFnS0RoYlhuWFBMMjY3ak1XcnZiU0hFIn0.eyJleHAiOjE2NTc1OTQ3MjIsImlhdCI6MTY1NzU5NDQyMiwianRpIjoiNGFkZjY1ZjgtZjEzNi00ZmM0LTk3ODItMTkxM2YyOWNjYTgwIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9hdXRoL3JlYWxtcy9KaWJiZXJKYWJiZXIiLCJzdWIiOiJmYmU1Mjk1OS1mOWY2LTQ5NzEtOGQ3YS1hZjljZDhiZDlhYTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhZG1pbi1jbGkiLCJzZXNzaW9uX3N0YXRlIjoiNTExMDkwYjYtZDY4NS00N2UwLWE3NjEtMmJiYzAwMDY5YzFmIiwiYWNyIjoiMSIsInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6IjUxMTA5MGI2LWQ2ODUtNDdlMC1hNzYxLTJiYmMwMDA2OWMxZiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IlNvbmlhIFdlbHMiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzb25pYSIsImdpdmVuX25hbWUiOiJTb25pYSIsImZhbWlseV9uYW1lIjoiV2VscyJ9.WO4eYuriDS-Pj1shyn6gwYHniNHTw1LLiyhI3gO8xc3UMrYos8AHnlgRZ8fyw1fckcp1JOg1frMjbOk5Lp9ynwMEx0t4YxI6-2zUMWy0h43N13n-WqqM8mLGaxwgJZIcSQeRMe7cClPL9-jYvmUcwHWSZtag8IggqzZ6JwRGjseED8rWbhgGiB4haW7ejo4TBnpf8lI5AHFHM6Jitc_krRwEr1GIDBYTaxzmNHGbjwJqfVU4wE07Iu6gawhA6rx3Go0OyxN0CS5bl9uXI7eYclg0CupPQAynVna81YiFSveqGDtqN_on2NkpPMEFDp0g_g-2l-p2CwHlTwR_r8PHjw"}
+                headers: {'Authorization': 'Bearer '+ "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBWkp5RUlVa1pmWWNtTFpKLS0tcWFnS0RoYlhuWFBMMjY3ak1XcnZiU0hFIn0.eyJleHAiOjE2NTc1OTU2MzAsImlhdCI6MTY1NzU5NTMzMCwianRpIjoiM2JkYTBmM2EtYTRkYy00MGRiLWJjMTctNjRkNTIyMWZhMTY4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9hdXRoL3JlYWxtcy9KaWJiZXJKYWJiZXIiLCJzdWIiOiJmYmU1Mjk1OS1mOWY2LTQ5NzEtOGQ3YS1hZjljZDhiZDlhYTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhZG1pbi1jbGkiLCJzZXNzaW9uX3N0YXRlIjoiYmZmZjY3NTMtN2UwMC00MzQ5LWEwZmMtNWNhM2FmNWY0NzczIiwiYWNyIjoiMSIsInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImJmZmY2NzUzLTdlMDAtNDM0OS1hMGZjLTVjYTNhZjVmNDc3MyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IlNvbmlhIFdlbHMiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzb25pYSIsImdpdmVuX25hbWUiOiJTb25pYSIsImZhbWlseV9uYW1lIjoiV2VscyJ9.ZxnXXCQ82otfTQoUUSzIJWWcILLfoIrq5Vnz4GkLo-VQt__tzFu2DA_zRSPTeTMLClKuIB95QX5kEManCDy7dM77sapDGY6x0Db6OCL-il6PZ7gDeZs1Y2EFifpg2TLgKwrhFYU3evrXnJj0gZ5OqPlNyZj72cGeFp_Y2Jk_41PAa7YbLx9jmTx9-Ct1QsD9AM_w5m5rHzNu8Sn2YoxYn2GP4jLX_dzY_agGXkTGLTSN74F8JXSDtCHrhc4_kDogD4mfmFlJ_DDvV5wp-JTKbWw7zjBbntWfv53XS67oS3TjI_sJrBFAQK6WrCuvLT6qogKaIhRp4hsLqLWJR7y2GQ"}
 
             }).get("").then( result => {
             console.log(result)
@@ -84,16 +85,6 @@ export class ApiUserData implements UserData {
         return <User>{id:token?.sub, name:token?.given_name, username:token?.preferred_username};
     }
 
-    /*async getA(): Promise<User | undefined> {
-        const a = await keycloak.tokenParsed?.preferred_username
-        console.log(a)
-        const result = <User>{
-            id: getUserId(),
-            name: keycloak.tokenParsed?.given_name,
-            username: keycloak.tokenParsed?.preferred_username
-        };
-        return Promise.resolve(result)
-    }*/
 
     getUserById(userId: string): Promise<User | undefined> {
 
@@ -108,10 +99,6 @@ export class ApiUserData implements UserData {
 
         });
 
-        /*return getInfoById(userId).then( data => {
-            return <User>{id: userId, name: data.data.given_name, username:data.data.preferred_username}
-
-        });*/
     }
 
     isFollowed(userId: string): Promise<boolean | undefined> {
@@ -126,35 +113,56 @@ export class ApiUserData implements UserData {
             return false;
         });*/
         /*return Promise.resolve(result)*/
-        console.log(userId,getUserId())
-        return axios.create(
-            {
-                baseURL: "/follow/",
-                headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
-            }).get(`/all/b1e1a146-6bfa-4896-aa56-cdb43f9ed01b`).then( result => {
-            const r = result.data;
-            if(userId=="b1e1a146-6bfa-4896-aa56-cdb43f9ed01b"){
-                return true;
-            }
-            for (let i = 0; i < r.length; i++) {
-                if(r[i].followed== userId ){
+        return this.getCurrentUser().then(user => {
+            return axios.create(
+                {
+                    baseURL: "/follow/",
+                    headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+                }).get(`/all/${user?.id}`).then( result => {
+                const r = result.data;
+                if(userId==user?.id){
                     return true;
                 }
-            }
-            return false;
-        });
+                for (let i = 0; i < r.length; i++) {
+                    if(r[i].followed== userId ){
+                        return true;
+                    }
+                }
+                return false;
+            });
+        })
+
+
 
     }
 
     toggleFollow(userId: string): Promise<void> {
-        return this.isFollowed(userId).then(followed => {
-            if (followed) {
-                return followAxios.delete(`/${userId}`)
-            } else {
-                return followAxios.post(`/${userId}`)
-            }
+
+        return this.getCurrentUser().then(user => {
+
+            return this.isFollowed(userId).then(followed => {
+                if (followed) {
+                    return axios.create(
+                        {
+                            baseURL: "/follow/",
+                            headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+                        }).delete(`/unfollow/${user?.id}/${userId}`)
+                } else {
+                    return axios.create(
+                        {
+                            baseURL: "/follow/",
+                            headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+                        }).post("/", {follower:user?.id, followed:userId})
+                }
+            })
+
         })
+
+
     }
 
 }

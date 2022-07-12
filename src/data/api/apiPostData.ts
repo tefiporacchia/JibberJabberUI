@@ -55,7 +55,16 @@ export class ApiPostData implements PostData{
     }//quedarme con los campos de user y message
 
     answerPost(postId: string, answer: NewPost): Promise<FullPost> {
-        return postAxios.post<NewPost, FullPost>(`/${postId}/respond`, answer)
+
+        const request = axios.create(
+            {
+                baseURL: "/post/",
+                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+
+            }).post<NewPost, FullPost>(`/${postId}/respond`, answer)
+        console.log(request);
+        return request;
+
     }
 
     // @ts-ignore
