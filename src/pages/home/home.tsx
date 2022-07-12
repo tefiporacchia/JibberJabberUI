@@ -60,7 +60,7 @@ export const Home = () => {
     console.log(user)
     console.log(keycloak.tokenParsed?.given_name);
     if (state.loaded)
-      postData.createPost({user, text: postText})
+      postData.createPost({user, message: postText})
         .then(() => refreshPosts())
         .catch(error => console.error('Error while creating new post', error))
   }, [state, postData, user])

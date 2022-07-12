@@ -1,7 +1,7 @@
 import { User } from './users'
 export type Post = {
   id: string
-  text: string
+  message: string
   user: User
 }
 

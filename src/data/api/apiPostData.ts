@@ -20,7 +20,7 @@ export class ApiPostData implements PostData{
                 baseURL: "/post/",
                 headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
-            }).post<NewPost,PostToSend>("/", {text: post.text,user:post.user.username})
+            }).post<NewPost,PostToSend>("/", {text: post.message,user:post.user.username})
         console.log(request);
         return request;
     }
@@ -39,7 +39,8 @@ export class ApiPostData implements PostData{
 
             }).get("").then( result => {
                 console.log(result)
-            return getPostDesiredFields(result.data.content);
+            //return getPostDesiredFields(result.data.content);
+            return result.data.content;
 
         });
     }//quedarme con los campos de user y message

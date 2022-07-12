@@ -18,8 +18,8 @@ const cardStyle: SxProps<Theme> = {
 export const PostCard = ({post, sx, shouldNavigate = false}: PostCardProps) => {
   const navigate = useNavigate()
 
-  const {text, user} = post
-
+  const {message, user} = post
+  console.log(post)
   const mergedCardStyle = {...cardStyle, ...sx}
 
   const handleContentClick = useCallback(() => {
@@ -34,12 +34,12 @@ export const PostCard = ({post, sx, shouldNavigate = false}: PostCardProps) => {
       <CardActionArea>
         <CardHeader
           /*avatar={<Avatar src={avatar}/>}*/
-            subheader={`@${user}`}
+            subheader={`@${user.username}`}
           onClick={handleHeaderClick}
         />
         <CardContent onClick={handleContentClick}>
           <Typography variant="body1" color="text.primary">
-            {text}
+            {message}
           </Typography>
         </CardContent>
       </CardActionArea>

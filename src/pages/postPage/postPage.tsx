@@ -23,7 +23,7 @@ export const PostPage = () => {
 
   const handlePostAnswer = useCallback((postText: string) => {
     if (state.status === 'loaded') {
-      postData.answerPost(state.value.id, {user, text: postText})
+      postData.answerPost(state.value.id, {user, message: postText})
         .then(() => load())
         .catch(error => console.error('Error while creating new post', error))
     }
