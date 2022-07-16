@@ -5,3 +5,9 @@ COPY ["package.json", "tsconfig.json", "/app/"]
 COPY ./ /app/
 RUN cd /app && npm install
 RUN npm -s run build
+
+#
+FROM nginx
+COPY ./build /usr/share/nginx/html
+COPY ./conf.d/server.conf /etc/nginx/conf.d/server.conf
+EXPOSE 80
