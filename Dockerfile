@@ -8,6 +8,6 @@ RUN npm -s run build
 
 ##
 FROM nginx
-COPY --from=build-step /build/build /usr/share/nginx/html
+COPY --from=react-build /app/build /usr/share/nginx/html:ro
 COPY ./conf.d/server.conf /etc/nginx/conf.d/server.conf
 EXPOSE 80
