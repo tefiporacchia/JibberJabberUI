@@ -3,7 +3,6 @@ import { ReactKeycloakProvider } from "@react-keycloak/web";
 import keycloak from "../Keycloak"
 import { useEffect, useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-
 import { DataContainer, DataContext } from '../data/dataContext'
 import { MainRouter } from './mainRouter'
 import { createDataContainer } from './dataContainerInitializer'

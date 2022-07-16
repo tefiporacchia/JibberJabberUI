@@ -4,7 +4,6 @@ import React, { ReactNode } from 'react'
 import { User } from '../data/users'
 import { SxProps } from '@mui/system'
 import { Theme } from '@mui/material/styles'
-import { useKeycloak } from "@react-keycloak/web";
 
 export type ProfileHeaderProps = {
   user: User
@@ -28,7 +27,6 @@ const dividerStyle: SxProps<Theme> = {
 }
 
 export const ProfileHeader = ({user, actions}: ProfileHeaderProps) => {
-  const { keycloak, initialized } = useKeycloak();
   return (
     <Card>
       <CardContent>

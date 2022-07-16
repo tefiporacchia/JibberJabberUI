@@ -7,9 +7,6 @@ import { MainFrame } from '../../components/mainFrame'
 import { CreatePostCard } from '../../components/createPostCard'
 import { UserContext } from '../../components/contexts/userContext'
 import { Container } from '@mui/material'
-import { useKeycloak } from "@react-keycloak/web";
-import keycloak from "../../Keycloak";
-
 
 type HomeState =
   | {
@@ -21,44 +18,25 @@ type HomeState =
 }
 
 export const Home = () => {
-  const { keycloak, initialized } = useKeycloak();
   const postData = usePostData()
   const user = useContext(UserContext)
 
   const [state, setState] = useState<HomeState>({loaded: false})
 
+
   useEffect(() => {
-    console.log(keycloak?.token);
-    if(keycloak?.token){
-      console.log("entra a la rq")
-
-      const dat = async () =>{
-        await postData.getFeedPosts().then(posts => {
-          console.log(posts)
-          setState({loaded: true, posts})
-          console.log(state.loaded)
-        })
-      }
-
-      const timer = setTimeout(() => {
-        dat();
-      }, 1000);
-
-      return () => clearTimeout(timer);
-
-    }
-
+    postData.getFeedPosts().then(posts => {
+      setState({loaded: true, posts})
+    })
   }, [postData])
 
   const refreshPosts = useCallback(() => {
-    console.log(keycloak?.token);
     postData.getFeedPosts()
       .then(posts => setState(state => state.loaded ? ({...state, posts}) : state))
   }, [state, postData])
 
   const handleCreatePost = useCallback((postText: string) => {
-    console.log(user)
-    console.log(keycloak.tokenParsed?.given_name);
+
     if (state.loaded)
       postData.createPost({user, message: postText})
         .then(() => refreshPosts())

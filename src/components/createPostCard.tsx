@@ -22,7 +22,6 @@ const inputStyle: SxProps<Theme> = {
 
 export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreatePostCardProps) => {
     const { keycloak, initialized } = useKeycloak();
-  const {name} = useUserContext();
 
   const [postText, setPostText] = useState('')
 
@@ -38,8 +37,6 @@ export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreateP
     useCallback((event: React.KeyboardEvent<HTMLInputElement>) => event.key === 'Enter' && !event.shiftKey && setTimeout(handleSendPost), [handleSendPost])
 
   const fullCardStyle = useMemo(() => ({...cardStyle, ...sx}), [sx])
-
-    console.log(keycloak.tokenParsed)
 
   return (
     <Card sx={fullCardStyle}>

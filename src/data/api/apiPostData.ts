@@ -1,8 +1,7 @@
 import axios from "axios"
 import {FullPost, NewPost, Post, PostData, PostToSend} from "../posts";
-import {getPostDesiredFields,getFullPostDesiredFields} from "../../utils/getPostDesiredFields";
-import {getToken} from "../../utils/keycloak";
 import keycloak from "../../Keycloak";
+import UserService from "../../utils/userService";
 
 const postAxios = axios.create(
     {
@@ -14,14 +13,12 @@ const postAxios = axios.create(
 export class ApiPostData implements PostData{
 
     createPost(post: NewPost): Promise<PostToSend> {
-        console.log(post)
         const request = axios.create(
             {
                 baseURL: "/post/",
-                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+                headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).post<NewPost,PostToSend>("/", {text: post.message,user:post.user.username})
-        console.log(request);
         return request;
     }
 
@@ -29,39 +26,35 @@ export class ApiPostData implements PostData{
         return axios.create(
             {
                 baseURL: "/post/",
-                headers: {'Authorization': 'Bearer '+ keycloak?.token}
-
+                headers: {'Authorization': `Bearer ${UserService.getToken()}`}
             }).get(`/${id}`).then( result => {
-            console.log(result)
-            //return getPostDesiredFields(result.data.content);
-            return result.data.content;
+                console.log(result.data);
+            return result.data;
 
         });
     }
 
     getFeedPosts(): Promise<Post[]> {
-        console.log(keycloak?.token)
         return axios.create(
             {
                 baseURL: "/post/",
-                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+                headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).get("").then( result => {
-                console.log(result)
-            //return getPostDesiredFields(result.data.content);
             return result.data.content;
 
         });
-    }//quedarme con los campos de user y message
+    }
 
     answerPost(postId: string, answer: NewPost): Promise<FullPost> {
+        console.log(answer);
 
         const request = axios.create(
             {
                 baseURL: "/post/",
-                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+                headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
-            }).post<NewPost, FullPost>(`/${postId}/respond`, answer)
+            }).patch<NewPost, FullPost>(`/${postId}/respond`, { text: answer.message })
         console.log(request);
         return request;
 
@@ -73,24 +66,12 @@ export class ApiPostData implements PostData{
         return axios.create(
             {
                 baseURL: "/post/",
-                headers: {'Authorization': 'Bearer '+ keycloak?.token}
+                headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).get(`/all/${userId}`).then( result => {
-            console.log(result)
-            //return getPostDesiredFields(result.data.content);
             return result.data.content;
 
         });
-
-
-
-        /*postAxios.get(`/all/${userId}`).then( result => {
-
-            return getPostDesiredFields(result.data);
-
-        }, function(error) {
-            console.log(error)
-        });*/
 
     }
 

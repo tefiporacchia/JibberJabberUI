@@ -1,11 +1,8 @@
 import { createContext, useContext } from 'react'
-
 import { FullPost, PostData } from './posts'
-import { LocalPostData } from './localStorage/localPostData'
-import { LocalDataStorage } from './localStorage/localDataStorage'
 import {UserData, User } from './users'
-import { LocalUserData } from './localStorage/localUserData'
 import {ApiPostData} from "./api/apiPostData";
+import {UserApi} from "./api/apiUserData";
 
 export interface DataContainer {
   posts: PostData
@@ -13,9 +10,8 @@ export interface DataContainer {
 }
 
 export const DataContext = createContext<DataContainer>({
-  //posts: new LocalPostData(new LocalDataStorage<FullPost>(LocalPostData.type)),
   posts: new ApiPostData(),
-  users: new LocalUserData(new LocalDataStorage<User>(LocalUserData.type), ''),
+  users: new UserApi()
 })
 
 export const usePostData = (): PostData => {
@@ -25,7 +21,5 @@ export const usePostData = (): PostData => {
 
 export const useUserData = (): UserData => {
   const dataContainer = useContext(DataContext)
-  console.log(dataContainer)
-  console.log("users",dataContainer.users)
   return dataContainer.users
 }

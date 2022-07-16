@@ -19,7 +19,6 @@ export const PostCard = ({post, sx, shouldNavigate = false}: PostCardProps) => {
   const navigate = useNavigate()
 
   const {message, user} = post
-  console.log(post)
   const mergedCardStyle = {...cardStyle, ...sx}
 
   const handleContentClick = useCallback(() => {

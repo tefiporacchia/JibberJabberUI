@@ -31,10 +31,8 @@ export const UserLoader = ({children}: UserLoaderProps) => {
 
   useEffect(() => {
     userData.getCurrentUser().then((user) => {
-      console.log(user)
       if (isNotUndefined(user)){
         setState({status: 'loaded', user})
-        console.log(user)
       }
       else{
         setState({status: 'unauthenticated'})

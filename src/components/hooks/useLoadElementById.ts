@@ -26,13 +26,9 @@ export const useLoadElementById = <E>(id: string | undefined, loader: (id: strin
 
   const load = useCallback(() => {
     if (isUndefined(id)){
-      console.log("aaa");
       setState(NotFoundState)
     }
     else{
-      console.log("entro al else")
-      console.log(id)
-      console.log(loader)
       loader(id).then(element => {
         if (element === undefined)
           setState(NotFoundState)

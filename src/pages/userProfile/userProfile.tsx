@@ -10,8 +10,6 @@ import { Feed } from '../../components/feed'
 import { LoadableElement } from '../../components/loadableElement'
 import { Container } from '@mui/material'
 import { ProfileHeader } from '../../components/profileHeader'
-import {Logout} from "../../components/login/logout";
-import {useKeycloak} from "@react-keycloak/web";
 import { useUserContext } from '../../components/contexts/userContext'
 import { FollowActions } from '../../components/followActions'
 
@@ -27,23 +25,22 @@ type UserProfileValue = {
 }
 
 export const UserProfile = () => {
-    const { keycloak, initialized } = useKeycloak();
+
     const user = useUserContext()
-  const {userId} = useParams<UserProfileParams>()
-    console.log(user.id)
-    console.log(userId)
+    const {userId} = useParams<UserProfileParams>()
+
     const isSelf: boolean = user.id === userId
-  const postData = usePostData()
-  const userData = useUserData()
+    const postData = usePostData()
+    const userData = useUserData()
     let posts = [];
 
-  const getUserProfileValue = useCallback((id: string) => {
+    const getUserProfileValue = useCallback((id: string) => {
       console.log(id)
       return Promise.all([userData.getUserById(id), userData.isFollowed(id), postData.getPostsByUser(id)])
           .then(([maybeUser, isFollowed, posts]) =>
               mapUndefined(maybeUser, user => ({user, posts, isFollowed: nonUndefined(isFollowed, false)})),
           )
-  }, [postData])
+    }, [postData])
 
     const {state, load} = useLoadElementById<UserProfileValue>(userId, getUserProfileValue)
 
@@ -51,8 +48,6 @@ export const UserProfile = () => {
         userData.toggleFollow(userId)
             .then(() => load())
     }, [userData, userId])
-
-console.log(postData)
 
   const renderUserProfile = useCallback(({user, posts, isFollowed}: UserProfileValue) => (
     <Container>
@@ -69,7 +64,6 @@ console.log(postData)
   return (
     <MainFrame title="User profile">
       <LoadableElement state={state} renderValue={renderUserProfile}/>
-      <Logout></Logout>
     </MainFrame>
   )
 }
