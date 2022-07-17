@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ReactKeycloakProvider } from "@react-keycloak/web";
-import keycloak from "../Keycloak"
+import keycloak from "../keycloak"
 import { useEffect, useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 

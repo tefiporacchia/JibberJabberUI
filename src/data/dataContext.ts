@@ -25,7 +25,5 @@ export const usePostData = (): PostData => {
 
 export const useUserData = (): UserData => {
   const dataContainer = useContext(DataContext)
-  console.log(dataContainer)
-  console.log("users",dataContainer.users)
   return dataContainer.users
 }

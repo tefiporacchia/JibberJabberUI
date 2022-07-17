@@ -1,7 +1,7 @@
 import {FullPost, Post} from "../data/posts";
 import axios from "axios";
 import {User} from "../data/users";
-import keycloak from "../Keycloak";
+import keycloak from "../keycloak";
 
 export const getInfoById = async (id: string) =>{
     return userAxios.get(`/${id}`);

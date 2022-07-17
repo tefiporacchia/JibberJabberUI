@@ -39,8 +39,6 @@ export const CreatePostCard = ({onPost, buttonMessage, placeholder, sx}: CreateP
 
   const fullCardStyle = useMemo(() => ({...cardStyle, ...sx}), [sx])
 
-    console.log(keycloak.tokenParsed)
-
   return (
     <Card sx={fullCardStyle}>
       <CardHeader
