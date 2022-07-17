@@ -9,5 +9,5 @@ RUN npm -s run build
 ##
 FROM nginx
 COPY --from=react-build /app/build /usr/share/nginx/html:ro
-COPY ./conf.d/server.conf /etc/nginx/conf.d/server.conf
+COPY ./conf.d/server.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
