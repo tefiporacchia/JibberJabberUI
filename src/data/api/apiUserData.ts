@@ -1,7 +1,7 @@
 import {User, UserData} from "../users";
 import {getInfoById, getUserId, getToken} from "../../utils/keycloak";
 import axios from "axios";
-import keycloak from "../../Keycloak";
+import keycloak from "../../keycloak";
 import {getPostDesiredFields} from "../../utils/getPostDesiredFields";
 import {NewPost, PostToSend} from "../posts";
 
@@ -68,7 +68,7 @@ export class ApiUserData implements UserData {
         return axios.create(
             {
                 baseURL: "/user/",
-                headers: {'Authorization': 'Bearer '+ "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBWkp5RUlVa1pmWWNtTFpKLS0tcWFnS0RoYlhuWFBMMjY3ak1XcnZiU0hFIn0.eyJleHAiOjE2NTc1OTU2MzAsImlhdCI6MTY1NzU5NTMzMCwianRpIjoiM2JkYTBmM2EtYTRkYy00MGRiLWJjMTctNjRkNTIyMWZhMTY4IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9hdXRoL3JlYWxtcy9KaWJiZXJKYWJiZXIiLCJzdWIiOiJmYmU1Mjk1OS1mOWY2LTQ5NzEtOGQ3YS1hZjljZDhiZDlhYTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhZG1pbi1jbGkiLCJzZXNzaW9uX3N0YXRlIjoiYmZmZjY3NTMtN2UwMC00MzQ5LWEwZmMtNWNhM2FmNWY0NzczIiwiYWNyIjoiMSIsInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImJmZmY2NzUzLTdlMDAtNDM0OS1hMGZjLTVjYTNhZjVmNDc3MyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IlNvbmlhIFdlbHMiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzb25pYSIsImdpdmVuX25hbWUiOiJTb25pYSIsImZhbWlseV9uYW1lIjoiV2VscyJ9.ZxnXXCQ82otfTQoUUSzIJWWcILLfoIrq5Vnz4GkLo-VQt__tzFu2DA_zRSPTeTMLClKuIB95QX5kEManCDy7dM77sapDGY6x0Db6OCL-il6PZ7gDeZs1Y2EFifpg2TLgKwrhFYU3evrXnJj0gZ5OqPlNyZj72cGeFp_Y2Jk_41PAa7YbLx9jmTx9-Ct1QsD9AM_w5m5rHzNu8Sn2YoxYn2GP4jLX_dzY_agGXkTGLTSN74F8JXSDtCHrhc4_kDogD4mfmFlJ_DDvV5wp-JTKbWw7zjBbntWfv53XS67oS3TjI_sJrBFAQK6WrCuvLT6qogKaIhRp4hsLqLWJR7y2GQ"}
+                headers: {'Authorization': 'Bearer '+ keycloak.token}
 
             }).get("").then( result => {
             console.log(result)

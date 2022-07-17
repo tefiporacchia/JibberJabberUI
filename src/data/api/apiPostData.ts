@@ -2,7 +2,7 @@ import axios from "axios"
 import {FullPost, NewPost, Post, PostData, PostToSend} from "../posts";
 import {getPostDesiredFields,getFullPostDesiredFields} from "../../utils/getPostDesiredFields";
 import {getToken} from "../../utils/keycloak";
-import keycloak from "../../Keycloak";
+import keycloak from "../../keycloak";
 
 const postAxios = axios.create(
     {

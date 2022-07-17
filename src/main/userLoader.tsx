@@ -25,23 +25,40 @@ type UserLoaderState =
 
 export const UserLoader = ({children}: UserLoaderProps) => {
   const userData = useUserData()
-  const { initialized } = useKeycloak()
+  const { keycloak, initialized } = useKeycloak()
 
   const [state, setState] = useState<UserLoaderState>({status: 'loading'})
 
   useEffect(() => {
-    userData.getCurrentUser().then((user) => {
-      console.log(user)
-      if (isNotUndefined(user)){
-        setState({status: 'loaded', user})
-        console.log(user)
-      }
-      else{
-        setState({status: 'unauthenticated'})
-      }
+    console.log("Initialized: " + initialized)
+    if (initialized && !keycloak?.authenticated) {
+      keycloak.login().then(() => {
+        console.log("Token: " + keycloak.token)
+        userData.getCurrentUser().then((user) => {
+          console.log(user)
+          if (isNotUndefined(user)){
+            setState({status: 'loaded', user})
+            console.log(user)
+          }
+          else{
+            setState({status: 'unauthenticated'})
+          }
 
-    })
-  }, [])
+        })
+      })
+    } else if (initialized) {
+      userData.getCurrentUser().then((user) => {
+        console.log(user)
+        if (isNotUndefined(user)){
+          setState({status: 'loaded', user})
+          console.log(user)
+        }
+        else{
+          setState({status: 'unauthenticated'})
+        }
+      })
+    }
+  }, [initialized])
 
   /*useEffect(() => {
     setState({status: 'loading'})

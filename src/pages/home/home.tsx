@@ -8,7 +8,7 @@ import { CreatePostCard } from '../../components/createPostCard'
 import { UserContext } from '../../components/contexts/userContext'
 import { Container } from '@mui/material'
 import { useKeycloak } from "@react-keycloak/web";
-import keycloak from "../../Keycloak";
+import keycloak from "../../keycloak";
 
 
 type HomeState =
