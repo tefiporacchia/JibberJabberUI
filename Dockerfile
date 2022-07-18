@@ -1,13 +1,13 @@
-FROM node:16-alpine as react-build
-RUN mkdir /app
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN cd /app && npm install
-COPY . .
-RUN npm -s run build
+FROM node:16 AS build-step
 
-##
+WORKDIR /build
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
 FROM nginx
-COPY --from=react-build /app/build /usr/share/nginx/html:ro
-COPY conf.d/server.conf /etc/nginx/conf.d/default.conf
+COPY nginx/conf.d/server.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-step /build/build /usr/share/nginx/html
 EXPOSE 80
