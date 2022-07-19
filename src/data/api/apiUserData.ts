@@ -7,7 +7,7 @@ export class UserApi implements UserData {
     getCurrentUser(): Promise<User | undefined> {
         return axios.create(
             {
-                baseURL: "https://jibberjabber.ml/user/",
+                baseURL: "https://jibberjabberdev.ml/user/",
                 headers: {'Authorization': `Bearer ${UserService.getToken()}`}
             }).get("").then( result => {
             console.log(result)
@@ -19,7 +19,7 @@ export class UserApi implements UserData {
     getUserById(userId: string): Promise<User | undefined> {
         return axios.create(
             {
-                baseURL: "https://jibberjabber.ml/user/",
+                baseURL: "https://jibberjabberdev.ml/user/",
                 headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).get(`${userId}`).then( result => {
@@ -32,7 +32,7 @@ export class UserApi implements UserData {
         return this.getCurrentUser().then(user => {
             return axios.create(
                 {
-                    baseURL: "https://jibberjabber.ml/follow/",
+                    baseURL: "https://jibberjabberdev.ml/follow/",
                     headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
                 }).get(`/all/${user?.id}`).then( result => {
@@ -57,7 +57,7 @@ export class UserApi implements UserData {
                 if (followed) {
                     return axios.create(
                         {
-                            baseURL: "https://jibberjabber.ml/follow/",
+                            baseURL: "https://jibberjabberdev.ml/follow/",
                             headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
                         }).delete(`/unfollow/${user?.id}/${userId}`)

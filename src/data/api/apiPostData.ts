@@ -5,7 +5,7 @@ import UserService from "../../utils/userService";
 
 const postAxios = axios.create(
     {
-        baseURL: "https://jibberjabber.ml/post/",
+        baseURL: "https://jibberjabberdev.ml/post/",
         headers: {'Authorization': 'Bearer '+ keycloak?.token}
 
     }
@@ -15,7 +15,7 @@ export class ApiPostData implements PostData{
     createPost(post: NewPost): Promise<PostToSend> {
         const request = axios.create(
             {
-                baseURL: "https://jibberjabber.ml/post/",
+                baseURL: "https://jibberjabberdev.ml/post/",
                 headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).post<NewPost,PostToSend>("/", {text: post.message,user:post.user.username})
@@ -25,7 +25,7 @@ export class ApiPostData implements PostData{
     getFullPostById(id: string): Promise<FullPost | undefined> {
         return axios.create(
             {
-                baseURL: "https://jibberjabber.ml/post/",
+                baseURL: "https://jibberjabberdev.ml/post/",
                 headers: {'Authorization': `Bearer ${UserService.getToken()}`}
             }).get(`/${id}`).then( result => {
                 console.log(result.data);
@@ -37,7 +37,7 @@ export class ApiPostData implements PostData{
     getFeedPosts(): Promise<Post[]> {
         return axios.create(
             {
-                baseURL: "https://jibberjabber.ml/post/",
+                baseURL: "https://jibberjabberdev.ml/post/",
                 headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).get("").then( result => {
@@ -51,7 +51,7 @@ export class ApiPostData implements PostData{
 
         const request = axios.create(
             {
-                baseURL: "https://jibberjabber.ml/post/",
+                baseURL: "https://jibberjabberdev.ml/post/",
                 headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).patch<NewPost, FullPost>(`/${postId}/respond`, { text: answer.message })
@@ -65,7 +65,7 @@ export class ApiPostData implements PostData{
 
         return axios.create(
             {
-                baseURL: "https://jibberjabber.ml/post/",
+                baseURL: "https://jibberjabberdev.ml/post/",
                 headers: {'Authorization': `Bearer ${UserService.getToken()}`}
 
             }).get(`/all/${userId}`).then( result => {
